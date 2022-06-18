@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 16 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 
@@ -82,6 +82,45 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 void solve()
 {
 
+    ll count;
+    ll count_n;
+    cin >> count;
+    ll sum = 0;
+    vl values(count);
+    
+    for (int i = 0; i < count; i++)
+    {
+        cin >> values[i];        
+    }
+
+    for (int i = count-1; i >= 0; i++)
+    {
+        if(values[i]!= 0){
+            count_n = i+1;
+        }
+    }
+    
+    
+
+    for (int i = 0; i < count_n-1; i++)
+    {
+        sum+=values[i];
+        if(sum <= 0){
+            cout << "No"<<endl;
+            return;
+        }
+    }
+
+    
+    sum+=values[count_n-1];
+
+    if(sum){
+        cout << "No"<<endl;
+
+    }else{
+        cout << "Yes"<< endl;
+    }
+
  
 }
 
@@ -108,46 +147,3 @@ int main()
 #endif
     return 0;
 }
-
-// class SegTree
-// {
-// public:
-//   SegTree *lchild,*rchild;
-//   ll leftmost,rightmost;
-//   ll gcd = 0;
- 
-//   SegTree(ll L,ll R,vector<ll> &v)
-//   {
-//     this->leftmost = L;
-//     this->rightmost = R;
-//     if(L == R)
-//     {
-//       gcd = v[L];
-//       return;
-//     }
-//     ll mid = (L+R)/2;
-//     lchild = new SegTree(L,mid,v);
-//     rchild = new SegTree(mid+1,R,v);
-//     calc();
-//   }
- 
-//   void calc()
-//   {
-//     if(leftmost == rightmost)
-//     {
-//       return;
-//     }
-//     gcd = __gcd(lchild->gcd,rchild->gcd);
-//   }
- 
-//   ll rangeGCD(ll L, ll R)
-//   {
-//     if(R < leftmost || L > rightmost)
-//       return 0;
-//     if(R >= rightmost && L <= leftmost)
-//       return this->gcd;
-    
-//     return __gcd(lchild->rangeGCD(L,R),rchild->rangeGCD(L,R));
-//   }
- 
-// };

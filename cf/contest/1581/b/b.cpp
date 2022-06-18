@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// JaiShri_Ram  
+// 18 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 
@@ -36,6 +36,8 @@ using ld = long double;
 template <class T>
 using pqg = priority_queue<T, vector<T>, greater<T>>;
 
+#define NO "NO\n"
+#define YES "YES\n"
 
 #define maximum(a) max_element(a.begin(),a.end()) 
 #define minimum(a) min_element(a.begin(),a.end()) 
@@ -81,8 +83,42 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 
 void solve()
 {
+        ll n, m , k;
+        cin >> n >> m >> k;
+        if(m < n-1 || m > n*(n-1)/2){
+            cout << NO;
+            return;
+        }
 
+        if(n == 1){
+            if( k > 1) {
+                cout << YES;
+                return;
+            }else{
+                cout << NO;
+                return;
+            }
+        }
+
+        if(m == n*(n-1)/2){
+            if (k > 2){
+                    cout << YES;
+                    return;
+                }else{
+                    cout << NO;
+                    return;
+                 }
+        }
+        
  
+        if(k > 3){
+            cout << YES;
+            return;
+        }   
+
+        cout << NO;
+        return;
+
 }
 
 int main()
@@ -93,7 +129,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    int t = 1;
+    ll t = 1;
     // ll t = 1;
     cin >> t;
     // Comment out above if only 1 test case
@@ -108,46 +144,3 @@ int main()
 #endif
     return 0;
 }
-
-// class SegTree
-// {
-// public:
-//   SegTree *lchild,*rchild;
-//   ll leftmost,rightmost;
-//   ll gcd = 0;
- 
-//   SegTree(ll L,ll R,vector<ll> &v)
-//   {
-//     this->leftmost = L;
-//     this->rightmost = R;
-//     if(L == R)
-//     {
-//       gcd = v[L];
-//       return;
-//     }
-//     ll mid = (L+R)/2;
-//     lchild = new SegTree(L,mid,v);
-//     rchild = new SegTree(mid+1,R,v);
-//     calc();
-//   }
- 
-//   void calc()
-//   {
-//     if(leftmost == rightmost)
-//     {
-//       return;
-//     }
-//     gcd = __gcd(lchild->gcd,rchild->gcd);
-//   }
- 
-//   ll rangeGCD(ll L, ll R)
-//   {
-//     if(R < leftmost || L > rightmost)
-//       return 0;
-//     if(R >= rightmost && L <= leftmost)
-//       return this->gcd;
-    
-//     return __gcd(lchild->rangeGCD(L,R),rchild->rangeGCD(L,R));
-//   }
- 
-// };

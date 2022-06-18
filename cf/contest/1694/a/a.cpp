@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 16 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 
@@ -108,46 +108,3 @@ int main()
 #endif
     return 0;
 }
-
-// class SegTree
-// {
-// public:
-//   SegTree *lchild,*rchild;
-//   ll leftmost,rightmost;
-//   ll gcd = 0;
- 
-//   SegTree(ll L,ll R,vector<ll> &v)
-//   {
-//     this->leftmost = L;
-//     this->rightmost = R;
-//     if(L == R)
-//     {
-//       gcd = v[L];
-//       return;
-//     }
-//     ll mid = (L+R)/2;
-//     lchild = new SegTree(L,mid,v);
-//     rchild = new SegTree(mid+1,R,v);
-//     calc();
-//   }
- 
-//   void calc()
-//   {
-//     if(leftmost == rightmost)
-//     {
-//       return;
-//     }
-//     gcd = __gcd(lchild->gcd,rchild->gcd);
-//   }
- 
-//   ll rangeGCD(ll L, ll R)
-//   {
-//     if(R < leftmost || L > rightmost)
-//       return 0;
-//     if(R >= rightmost && L <= leftmost)
-//       return this->gcd;
-    
-//     return __gcd(lchild->rangeGCD(L,R),rchild->rangeGCD(L,R));
-//   }
- 
-// };
