@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 21 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 
 #include <bits/stdc++.h>
@@ -37,27 +37,6 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #else
 #define debug(x...)
 #endif
-
-
-
-// ----------------------<FASTIO>--------------------------- 
-inline char gc(){static char buf[1000000],*p1=buf,*p2=buf;
-return p1==p2&&(p2=(p1=buf)+fread(buf,1,1000000,stdin),p1==p2)?EOF:*p1++;}
-
-ll read(){ll pos=1,num=0; char ch=getchar();
-while (!isdigit(ch)){if (ch=='-') pos=-1;ch=getchar();}
-while (isdigit(ch)){num=num*10+(ll)(ch-'0');ch=getchar();}
-return pos*num;}
-
-void write(ll x){if (x<0){putchar('-');write(-x);return;}
-if (x>=10) write(x/10);putchar(x%10+'0');}
-void writesp(ll x){write(x);putchar(' ');}
-void writeln(ll x){write(x);putchar('\n');}
-
-void write(int x){if (x<0){putchar('-');write(-x);return;}
-if (x>=10) write(x/10);putchar(x%10+'0');}
-void writesp(int x){write(x);putchar(' ');}
-void writeln(int x){write(x);putchar('\n');}
 
 
 // ----------------------<MACROS>--------------------------- 
@@ -115,13 +94,15 @@ ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b 
 
 void solve()
 {
-    ll count;
-    count = read();
+    ll count,k;
+    cin >> count >> k;
     vector<ll> values(count);
     for (int i = 0; i < count; i++)
     {
-        values[i] = read();
+        cin >> values[i];
     }
+
+    
 
 }
 
@@ -130,13 +111,12 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    int t = 1;
-    // cin >> t;
-    t = read();
+    ll t = 1LL;
+    cin >> t;
     // Comment out above if only 1 test case
     while (t--){
         solve();
-        putchar('\n');
+        cout << "\n";
     }
     return 0;
 }

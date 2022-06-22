@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 21 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 
 #include <bits/stdc++.h>
@@ -37,27 +37,6 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #else
 #define debug(x...)
 #endif
-
-
-
-// ----------------------<FASTIO>--------------------------- 
-inline char gc(){static char buf[1000000],*p1=buf,*p2=buf;
-return p1==p2&&(p2=(p1=buf)+fread(buf,1,1000000,stdin),p1==p2)?EOF:*p1++;}
-
-ll read(){ll pos=1,num=0; char ch=getchar();
-while (!isdigit(ch)){if (ch=='-') pos=-1;ch=getchar();}
-while (isdigit(ch)){num=num*10+(ll)(ch-'0');ch=getchar();}
-return pos*num;}
-
-void write(ll x){if (x<0){putchar('-');write(-x);return;}
-if (x>=10) write(x/10);putchar(x%10+'0');}
-void writesp(ll x){write(x);putchar(' ');}
-void writeln(ll x){write(x);putchar('\n');}
-
-void write(int x){if (x<0){putchar('-');write(-x);return;}
-if (x>=10) write(x/10);putchar(x%10+'0');}
-void writesp(int x){write(x);putchar(' ');}
-void writeln(int x){write(x);putchar('\n');}
 
 
 // ----------------------<MACROS>--------------------------- 
@@ -115,13 +94,66 @@ ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b 
 
 void solve()
 {
-    ll count;
-    count = read();
-    vector<ll> values(count);
-    for (int i = 0; i < count; i++)
-    {
-        values[i] = read();
-    }
+    int n, m;
+        cin >> n >> m;
+        vector<string> dir(n);
+        for (int i = 0; i < n; i++)
+            cin >> dir[i];
+
+        vector<vi> res(n, vi(m, 0));
+        int opt = 0, optr = 0, optc = 0;
+        for (int r = 0; r < n; r++) {
+            for (int c = 0; c < m; c++) {
+                if (res[r][c] > 0)
+                    continue;
+
+                int nr = r, nc = c;
+                int depth = 0;
+                vector<pii> path;
+                auto ok = [&n, &m](int row, int col) {
+                    return row > -1 && row < n && col > -1 && col < m;
+                };
+
+                do {
+                    res[nr][nc] = --depth;
+                    path.emplace_back(nr, nc);
+                    if (dir[nr][nc] == 'L')
+                        nc--;
+                    else if (dir[nr][nc] == 'R')
+                        nc++;
+                    else if (dir[nr][nc] == 'U')
+                        nr--;
+                    else
+                        nr++;
+                } while (ok(nr, nc) && res[nr][nc] == 0);
+
+                int start = 1;
+                if (ok(nr, nc)) {
+                    if (res[nr][nc] < 0) {
+                        int cycle = res[nr][nc] - depth + 1;
+                        for (int i = 0; i < cycle; i++) {
+                            auto p = path.back();
+                            path.pop_back();
+                            res[p.first][p.second] = cycle;
+                        }
+                    }
+                    start = res[nr][nc] + 1;
+                }
+                while (!path.empty()) {
+                    auto p = path.back();
+                    path.pop_back();
+                    res[p.first][p.second] = start++;
+                }
+
+                if (res[r][c] > opt) {
+                    opt = res[r][c];
+                    optr = r;
+                    optc = c;
+                }
+            }
+        }
+
+        cout << optr + 1 << ' ' << optc + 1 << ' ' << opt;
 
 }
 
@@ -130,13 +162,12 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    int t = 1;
-    // cin >> t;
-    t = read();
+    ll t = 1LL;
+    cin >> t;
     // Comment out above if only 1 test case
     while (t--){
         solve();
-        putchar('\n');
+        cout << "\n";
     }
     return 0;
 }

@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 21 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 
 #include <bits/stdc++.h>
@@ -37,27 +37,6 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #else
 #define debug(x...)
 #endif
-
-
-
-// ----------------------<FASTIO>--------------------------- 
-inline char gc(){static char buf[1000000],*p1=buf,*p2=buf;
-return p1==p2&&(p2=(p1=buf)+fread(buf,1,1000000,stdin),p1==p2)?EOF:*p1++;}
-
-ll read(){ll pos=1,num=0; char ch=getchar();
-while (!isdigit(ch)){if (ch=='-') pos=-1;ch=getchar();}
-while (isdigit(ch)){num=num*10+(ll)(ch-'0');ch=getchar();}
-return pos*num;}
-
-void write(ll x){if (x<0){putchar('-');write(-x);return;}
-if (x>=10) write(x/10);putchar(x%10+'0');}
-void writesp(ll x){write(x);putchar(' ');}
-void writeln(ll x){write(x);putchar('\n');}
-
-void write(int x){if (x<0){putchar('-');write(-x);return;}
-if (x>=10) write(x/10);putchar(x%10+'0');}
-void writesp(int x){write(x);putchar(' ');}
-void writeln(int x){write(x);putchar('\n');}
 
 
 // ----------------------<MACROS>--------------------------- 
@@ -115,13 +94,46 @@ ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b 
 
 void solve()
 {
-    ll count;
-    count = read();
-    vector<ll> values(count);
-    for (int i = 0; i < count; i++)
-    {
-        values[i] = read();
+    ll n,m;
+    cin >> m>>n;
+    string val;
+    cin >> val;
+    
+    ll l = 0, r  = 0, u = 0 , d = 0;
+
+    ll x = 0, y = 0;
+
+    tr(ii,val){
+        if(*ii == 'R'){
+            ++x;
+            if(x-l >= n){
+                break;
+            }
+            r = max(r,x);
+        }else if(*ii == 'L'){
+            --x;
+            if(r-x >= n){
+                break;
+            }
+            l = min(l,x);
+
+        }else if(*ii == 'U'){
+            ++y;
+            if(y-d >= m){
+                break;
+            }
+            u = max(u,y);
+
+        }else if(*ii == 'D'){
+            --y;
+            if(u-y >= m){
+                break;
+            }
+            d = min(d,y);
+        }
     }
+
+    cout << 1+u << " " << 1-l; 
 
 }
 
@@ -130,13 +142,12 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    int t = 1;
-    // cin >> t;
-    t = read();
+    ll t = 1LL;
+    cin >> t;
     // Comment out above if only 1 test case
     while (t--){
         solve();
-        putchar('\n');
+        cout << "\n";
     }
     return 0;
 }

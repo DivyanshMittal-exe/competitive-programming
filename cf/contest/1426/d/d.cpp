@@ -1,5 +1,5 @@
 // divyanshmittal-exe  
-// 18 06 2022
+// 19 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 
@@ -73,138 +73,56 @@ mt19937 RNG(chrono::steady_clock::now().time_since_epoch().count());
 // Use mt19937_64 for 64 bit random numbers.
 
 // ----------------------<MATH>--------------------------- 
-template <class T> void swaP(T &a, T &b){ T temp = a; a = b; b = temp; }
-
+ 
 template<typename T> T gcd(T a, T b){return(b?__gcd(a,b):a);} 
 
 template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));} 
 
 
-// debugging
-template <typename T1, typename T2>
-inline std::ostream& operator << (std::ostream& os, const std::pair<T1, T2>& p) {
-    return os << "(" << p.first << ": " << p.second << ")";
-}
-template<typename T>
-inline std::ostream &operator << (std::ostream & os,const std::vector<T>& v) {
-    bool first = true;
-    os << "[";
-    for(unsigned int i = 0; i < v.size(); i++) {
-        if(!first) os << ", ";
-        os << v[i];
-        first = false;
-    }
-    return os << "]";
-}
-template<typename T>
-inline std::ostream &operator << (std::ostream & os,const std::set<T>& v) {
-    bool first = true;
-    os << "{";
-    for (typename std::set<T>::const_iterator ii = v.begin(); ii != v.end(); ++ii) {
-        if(!first) os << ", ";
-        os << *ii;
-        first = false;
-    }
-    return os << "}";
-}
-template<typename T1, typename T2>
-inline std::ostream &operator << (std::ostream & os,const std::map<T1, T2>& v) {
-    bool first = true;
-    os << "{";
-    for (typename std::map<T1, T2>::const_iterator ii = v.begin(); ii != v.end(); ++ii) {
-        if(!first) os << ", ";
-        os << *ii ;
-        first = false;
-    }
-    return os << "}";
-}
-template<typename T>
-inline std::ostream &operator << (std::ostream & os,const std::unordered_set<T>& v) {
-    return os << std::set<T>(v.begin(), v.end());
-}
-template<typename T1, typename T2>
-inline std::ostream &operator << (std::ostream & os,const std::unordered_map<T1, T2>& v) {
-    return os << std::map<T1, T2>(v.begin(), v.end());
-}
-
-
-
-
-
 void solve()
 {
+
     int count;
     cin >> count;
-    vector<pair<ll,ll>> values(count);
-
+    vl values(count);
     for (int i = 0; i < count; i++)
     {
-        cin >> values[i].first;
+        cin >> values[i];
     }
-    
-    for (int i = 0; i < count; i++)
-    {
-        cin >> values[i].second;
-    }
-
-    vector<pair<ll,ll>> vold(values) ;
-    vector<pair<ll,ll>> values2(values) ;
-    
-    // cout << values;
-    sort(all(values),[](const pll& a,const pll& b)-> bool {
-        if(a.first == b.first){
-            return a.second < b.second;
-        }
-        return a.first < b.first;
-        } );
-    // sort(all(values2),[](const pll& a,const pll& b)-> bool {return  a.second < b.second;} );
-    // cout << values;
-    // cout << values2;
-
-
-    for (int i = 0; i < count-1; i++)
-    {
-        if(values[i].second > values[i+1].second){
-            cout << "-1" << endl;
-            return;
-        }
-    }
-
-    // for (int i = 0; i < count-1; i++)
+    // for (int i = 1; i < count; i++)
     // {
-    //     if(values2[i].first > values2[i+1].first){
-    //         cout << "-1" << endl;
-    //         return;
-    //     }
+    //     values[i] = values[i] + values[i-1];
     // }
 
-    int swc = 0;
-    vector<pair<ll,ll>> swaps;
+    ll val = 0;
 
+    unordered_set<ll> sets;
+    sets.insert(0);
+
+    int sum = 0;
     for (int i = 0; i < count; i++)
     {
-        for (int j = i+1; j < count; j++)
-        {
-            if (vold[j].first < vold[i].first){
-                swaps.push_back({i,j});
-                swaP(vold[j],vold[i]);
-            }else
+        val += values[i];
+        if(sets.find(val) != sets.end()){
+            ++sum;
+            sets.clear();
+            val = values[i];
+            sets.insert(0);
 
-            if(vold[j].first == vold[i].first && vold[j].second < vold[i].second){
-                swaps.push_back({i,j});
-                swaP(vold[j],vold[i]);
-            }
+            // sets.insert(values[i]);
+        }else{
+            
+            // sets.insert(values[i]);
         }
-        
-    }
-    
-    cout << swaps.size() << endl;
-    tr(ii,swaps){
-        cout << ii -> second + 1 << " " << ii-> first + 1 << endl;
+        sets.insert(val);
     }
 
+    cout << sum;
+    
+    
     
 
+ 
 }
 
 int main()
@@ -217,7 +135,7 @@ int main()
     cout.tie(nullptr);
     int t = 1;
     // ll t = 1;
-    cin >> t;
+    // cin >> t;
     // Comment out above if only 1 test case
     // t = 1;
     while (t--)
@@ -230,3 +148,46 @@ int main()
 #endif
     return 0;
 }
+
+// class SegTree
+// {
+// public:
+//   SegTree *lchild,*rchild;
+//   ll leftmost,rightmost;
+//   ll gcd = 0;
+ 
+//   SegTree(ll L,ll R,vector<ll> &v)
+//   {
+//     this->leftmost = L;
+//     this->rightmost = R;
+//     if(L == R)
+//     {
+//       gcd = v[L];
+//       return;
+//     }
+//     ll mid = (L+R)/2;
+//     lchild = new SegTree(L,mid,v);
+//     rchild = new SegTree(mid+1,R,v);
+//     calc();
+//   }
+ 
+//   void calc()
+//   {
+//     if(leftmost == rightmost)
+//     {
+//       return;
+//     }
+//     gcd = __gcd(lchild->gcd,rchild->gcd);
+//   }
+ 
+//   ll rangeGCD(ll L, ll R)
+//   {
+//     if(R < leftmost || L > rightmost)
+//       return 0;
+//     if(R >= rightmost && L <= leftmost)
+//       return this->gcd;
+    
+//     return __gcd(lchild->rangeGCD(L,R),rchild->rangeGCD(L,R));
+//   }
+ 
+// };

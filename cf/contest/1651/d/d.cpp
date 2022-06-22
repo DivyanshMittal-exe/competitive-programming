@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 21 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 
 #include <bits/stdc++.h>
@@ -39,27 +39,6 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #endif
 
 
-
-// ----------------------<FASTIO>--------------------------- 
-inline char gc(){static char buf[1000000],*p1=buf,*p2=buf;
-return p1==p2&&(p2=(p1=buf)+fread(buf,1,1000000,stdin),p1==p2)?EOF:*p1++;}
-
-ll read(){ll pos=1,num=0; char ch=getchar();
-while (!isdigit(ch)){if (ch=='-') pos=-1;ch=getchar();}
-while (isdigit(ch)){num=num*10+(ll)(ch-'0');ch=getchar();}
-return pos*num;}
-
-void write(ll x){if (x<0){putchar('-');write(-x);return;}
-if (x>=10) write(x/10);putchar(x%10+'0');}
-void writesp(ll x){write(x);putchar(' ');}
-void writeln(ll x){write(x);putchar('\n');}
-
-void write(int x){if (x<0){putchar('-');write(-x);return;}
-if (x>=10) write(x/10);putchar(x%10+'0');}
-void writesp(int x){write(x);putchar(' ');}
-void writeln(int x){write(x);putchar('\n');}
-
-
 // ----------------------<MACROS>--------------------------- 
 #define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 #define tr(ii, c) for (__typeof((c).begin()) ii = (c).begin(); ii != (c).end(); ii++)
@@ -92,6 +71,7 @@ typedef pair<string, string> pss;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
 typedef vector<pii> vii;
+typedef vector<pll> vll;
 typedef vector<ll> vl;
 typedef vector<vl> vvl;
 
@@ -116,11 +96,47 @@ ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b 
 void solve()
 {
     ll count;
-    count = read();
-    vector<ll> values(count);
+    cin >> count;
+    vector<pair<ll,ll>> values(count);
     for (int i = 0; i < count; i++)
     {
-        values[i] = read();
+        cin >> values[i].first >> values[i].second;
+    }
+
+    set<pair<ll,ll>> vset(all(values));
+    map<pll,pll> a;
+
+    queue<pair<int, int>> q;
+
+    tr(ii,values){
+        for (int i = 0; i < 4; i++)
+        {
+            ll nx = ii->first + dx[i], ny = ii->second + dy[i];
+            if (vset.count({nx, ny})) {
+                continue;
+            }
+            a[{ii->first, ii->second}] = {nx, ny};
+            q.push({ii->first, ii->second});
+            break;
+        }
+        
+    }
+
+    while (!q.empty()) {
+        int x = q.front().first, y = q.front().second;
+        q.pop();
+        for (int i = 0; i < 4; ++i) {
+            int nx = x + dx[i], ny = y + dy[i];
+            if (!vset.count({nx, ny}) || a.count({nx, ny})) {
+                continue;
+            }
+            a[{nx, ny}] = a[{x, y}];
+            q.push({nx, ny});
+        }
+    }
+    
+    tr(ii,values){
+        cout << a[*ii].first << " " << a[*ii].second << endl;
     }
 
 }
@@ -130,13 +146,12 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    int t = 1;
+    ll t = 1LL;
     // cin >> t;
-    t = read();
     // Comment out above if only 1 test case
     while (t--){
         solve();
-        putchar('\n');
+        cout << "\n";
     }
     return 0;
 }
