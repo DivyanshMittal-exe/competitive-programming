@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 25 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -82,16 +82,74 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
 
-void solve()
+bool solve()
 {
-    ll count;
-    cin >> count;
-    vector<ll> values(count);
-    for (int i = 0; i < count; i++)
+    int n,m,k;
+    cin >> n >> m ;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++)
     {
-        cin >> values[i];
+        cin >> a[i];
     }
 
+    cin >> k ;
+    vector<int> b(k);
+    for (int i = 0; i < k; i++)
+    {
+        cin >> b[i];
+    }
+
+    if((n-k) %(m-1) != 0){
+        // cout << "No";
+        return false;
+    }
+
+    int sa = 0;
+    int sb = 0;
+    tr(ii,a){
+        sa +=  *ii;
+    }
+
+    tr(ii,b){
+        sb +=  *ii;
+    }
+
+    if(sa != sb){
+        // cout << "No";
+        return false;
+    }
+
+    vector<pair<ll,ll>> c,d;
+    auto freq = [](vector<pair<ll,ll>>& vp,int type,int cnt){
+        if(vp.empty()||vp.back().first != type){
+            vp.push_back({type,cnt});
+        }else{
+            vp.back().second += cnt;
+        }
+    };
+    
+    tr(ii,a){
+        ll val = *ii;
+        ll cnt = 1;
+        while(val%m == 0){
+            val/= m;
+            cnt*=m;
+        }
+        freq(c,val,cnt);
+    }
+     
+    tr(ii,b){
+        ll val = *ii;
+        ll cnt = 1;
+        while(val%m == 0){
+            val/= m;
+            cnt*=m;
+        }
+        freq(d,val,cnt);
+    }
+
+    return c==d;
+    
 }
 
 int main()
@@ -103,10 +161,10 @@ int main()
     cin >> t;
     // Comment out above if only 1 test case
     while (t--){
-        solve();
-        cout << "\n";
+        // solve();
+        // cout << "\n";
 
-        // cout << (solve() ? "Yes" : "No") << '\n';
+        cout << (solve() ? "Yes" : "No") << '\n';
     }
     return 0;
 }

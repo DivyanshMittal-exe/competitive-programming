@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 28 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -82,15 +82,30 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
 
-void solve()
-{
-    ll count;
-    cin >> count;
-    vector<ll> values(count);
-    for (int i = 0; i < count; i++)
-    {
-        cin >> values[i];
+int prime(int x) {
+    for (int i = 2; i * i <= x; ++i) {
+        if (x % i == 0)
+            return i;
     }
+    return -1;
+}
+
+
+bool solve()
+{
+    int x, d;
+    cin >> x >> d;
+    int cnt = 0;
+    while (x % d == 0) {
+        ++cnt;
+        x /= d;
+    }
+    if (cnt == 1) return false;
+    if (prime(x) != -1) return true;
+    if (prime(d) != -1 && d == prime(d) * prime(d) && x == prime(d) && cnt == 3) return false;
+    if (cnt > 2 && prime(d) != -1)return true;
+    
+    return false;
 
 }
 
@@ -103,10 +118,10 @@ int main()
     cin >> t;
     // Comment out above if only 1 test case
     while (t--){
-        solve();
-        cout << "\n";
+        // solve();
+        // cout << "\n";
 
-        // cout << (solve() ? "Yes" : "No") << '\n';
+        cout << (solve() ? "YES" : "NO") << '\n';
     }
     return 0;
 }

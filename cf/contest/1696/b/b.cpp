@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 25 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -92,6 +92,49 @@ void solve()
         cin >> values[i];
     }
 
+    bool allz = true;
+    rep(i,0,count){
+        if(values[i] != 0){
+            allz = false;
+        }
+    }
+
+    if(allz) {
+        cout << "0";
+        return;
+    }
+
+    int l = -1;
+    int r = -1;
+    rep(i,0,count){
+        if(values[i]!= 0){
+            l = i;
+            break;
+        }
+    }
+
+    rep(i,count,0){
+        if(values[i]!= 0){
+            r = i;
+            break;
+        }
+    }
+
+    bool allnz = true;
+
+    rep(i,l,r+1){
+        if(values[i] == 0){
+            allnz = false;
+
+        }
+    }
+
+    if(allnz){
+        cout << 1;
+    }else{
+        cout << 2;
+    }
+
 }
 
 int main()
@@ -105,8 +148,6 @@ int main()
     while (t--){
         solve();
         cout << "\n";
-
-        // cout << (solve() ? "Yes" : "No") << '\n';
     }
     return 0;
 }

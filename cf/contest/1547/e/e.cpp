@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 27 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -84,12 +84,33 @@ ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b 
 
 void solve()
 {
-    ll count;
-    cin >> count;
-    vector<ll> values(count);
-    for (int i = 0; i < count; i++)
-    {
-        cin >> values[i];
+    ll n,k;
+    cin >> n>>k;
+    vector<ll> a(k);
+    vector<ll> t(k);
+    
+    for(auto& x: a) cin >> x;
+    for(auto& x: t) cin >> x;
+
+    vector<ll> l(n,INF),r(n,INF);
+    rep(i,0,k){
+        l[a[i]-1] = t[i];
+        r[a[i]-1] = t[i];
+    }
+
+    debug(l);
+    rep(i,1,n){
+        r[i] = min(r[i-1]+1,r[i]);
+    }
+    rep(i,n-1,0){
+        l[i] = min(l[i+1]+1,l[i]);
+    }
+    rep(i,0,n){
+        r[i] = min(l[i],r[i]);
+    }
+
+    for(auto x: r){
+        cout << x << " ";
     }
 
 }

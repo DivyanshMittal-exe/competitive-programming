@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 23 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -73,7 +73,16 @@ const ll MAXN = 1e6;
 const ll INF = 1e15 - 1;
 const ld EPS = 1e-8;
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};
-
+typedef long long LL;
+LL expo(LL a, LL b){
+  // a %= MOD; // USE THIS WHEN N IS REALLY BIG!
+  LL ret = 1;
+  while(b > 0){
+    if(b&1) ret = (ret*a);
+    a = (a*a); b >>= 1;
+  }
+  return ret;
+}
 
 
 // ----------------------<MATH>--------------------------- 
@@ -84,13 +93,32 @@ ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b 
 
 void solve()
 {
-    ll count;
-    cin >> count;
-    vector<ll> values(count);
-    for (int i = 0; i < count; i++)
-    {
-        cin >> values[i];
+     string s; cin >> s;
+  int low = expo(10, sz(s) - 1);
+  int high = expo(10, sz(s)) - 1;
+  if(low == 1) low--;
+  while(low%25) low++;
+  int ans = 0;
+  for(;low <= high;low += 25){
+    string current = to_string(low);
+    char xval = '-';
+    bool can = 1;
+    for(int i = 0;i < sz(s);i++){
+      if(s[i] == '_') continue;
+      if(s[i] == 'X'){
+        if(xval != '-' && xval != current[i]){
+          can = 0;
+          break;
+        }
+        xval = current[i];
+      }else if(s[i] != current[i]){
+        can = 0;
+        break;
+      }
     }
+    ans += can;
+  }
+  cout << ans;
 
 }
 
@@ -100,13 +128,11 @@ int main()
     cin.tie(nullptr);
     cout.tie(nullptr);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     // Comment out above if only 1 test case
     while (t--){
         solve();
         cout << "\n";
-
-        // cout << (solve() ? "Yes" : "No") << '\n';
     }
     return 0;
 }

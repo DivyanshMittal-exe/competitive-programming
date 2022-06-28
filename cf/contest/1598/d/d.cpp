@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 23 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -86,11 +86,25 @@ void solve()
 {
     ll count;
     cin >> count;
-    vector<ll> values(count);
+    vector<pll> values(count);
+    map<ll,ll> topic;
+    map<ll,ll> diff;
     for (int i = 0; i < count; i++)
     {
-        cin >> values[i];
+        ll x,y;
+        cin >> x >> y;
+        values[i] = {x,y};
+        ++topic[x];
+        ++diff[y];
     }
+    ll sol = count * (count - 1) * (count - 2) / 6;
+
+    tr(ii,values){
+        sol -= (topic[ii->first] - 1)*(diff[ii->second] - 1);
+    }
+
+    cout << sol;
+
 
 }
 
@@ -105,8 +119,6 @@ int main()
     while (t--){
         solve();
         cout << "\n";
-
-        // cout << (solve() ? "Yes" : "No") << '\n';
     }
     return 0;
 }

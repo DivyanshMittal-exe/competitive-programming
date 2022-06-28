@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 23 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -86,11 +86,62 @@ void solve()
 {
     ll count;
     cin >> count;
-    vector<ll> values(count);
-    for (int i = 0; i < count; i++)
+    // vector<ll> values(count);
+    string brack;
+    string bin;
+    cin >> brack;
+    cin >> bin;
+    vector<ll> values;
+    for (int i = 0; i < sz(bin); i++)
     {
-        cin >> values[i];
+        if(bin[i] == '1'){
+            values.push_back(i);
+        }
     }
+    vector<int> types(sz(values),-1);
+
+    ll cost = 0;
+
+    for (int i = 0; i < sz(values)-1; i++)
+    {
+        if(values[i+1]-values[i] == 1 || values[i+1]-values[i] == 3){
+            cout << "-1";
+            return;
+        }else if(values[i+1]-values[i] == 2){
+            types[i+1] = 1;
+            types[i] = 1;
+            bin[values[i]] = '0';
+            cost += brack[values[i]] != '(';
+            cost += brack[values[i]+1] != ')';
+        }
+    }
+
+    for (int i = 0; i < sz(values); i++)
+    {
+        if(bin[values[i]] == '1'){
+            int c1 = 0;
+            c1 += brack[values[i]] != '(';
+            c1 += brack[values[i]+1] != '(';
+            c1 += brack[values[i]+2] != ')';
+            c1 += brack[values[i]+3] != ')';
+
+            int c2 = 0;
+            c2 += brack[values[i]] != '(';
+            c2 += brack[values[i]+1] != ')';
+            c2 += brack[values[i]+2] != '(';
+            c2 += brack[values[i]+3] != ')';
+
+            if(types[i] == 1){
+                cost += c2;
+            }else{
+                cost+= miN(c1,c2);
+            }
+        }
+
+    }
+    
+    cout << cost;
+
 
 }
 
@@ -105,8 +156,6 @@ int main()
     while (t--){
         solve();
         cout << "\n";
-
-        // cout << (solve() ? "Yes" : "No") << '\n';
     }
     return 0;
 }

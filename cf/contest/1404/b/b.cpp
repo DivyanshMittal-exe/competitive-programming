@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 27 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -82,15 +82,37 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
 
-void solve()
+bool solve()
 {
-    ll count;
-    cin >> count;
-    vector<ll> values(count);
-    for (int i = 0; i < count; i++)
-    {
-        cin >> values[i];
+    ll n, a,b,da,db;
+    cin >> n >> a >> b >> da >> db ;
+
+    vector<ll> tree[n+1];
+    rep(i,0,n-1) {
+        int u, v;
+        cin >> u >> v;
+        tree[u].push_back(v);
+        tree[v].push_back(u);
     }
+    int diameter =  0;
+    int depth[n+1];
+    depth[a] = 0;
+
+    function<int(int,int)>  dfs = [&](int me,int parent)->int{
+        int maxchildlen = 0;
+        for(int child : tree[me]){
+            if(child!=parent){
+                depth[child] = 1 + depth[me];  
+                int childlen = 1 + dfs(child,me);
+                diameter = max(diameter, childlen + maxchildlen);
+                maxchildlen = max(childlen, maxchildlen);
+            }
+
+        } 
+        return maxchildlen;
+    };
+    dfs(a, -1);
+    return (2 * da >= miN(diameter, db) || depth[b] <= da);
 
 }
 
@@ -103,10 +125,10 @@ int main()
     cin >> t;
     // Comment out above if only 1 test case
     while (t--){
-        solve();
-        cout << "\n";
+        // solve();
+        // cout << "\n";
 
-        // cout << (solve() ? "Yes" : "No") << '\n';
+        cout << (solve() ? "Alice" : "Bob") << '\n';
     }
     return 0;
 }

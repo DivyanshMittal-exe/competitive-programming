@@ -1,11 +1,11 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 22 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
-mt19937 RNG(chrono::steady_clock::now().time_since_epoch().count());
-#define SHUF(v) shuffle(all(v), RNG);
 
+using ll = long long;
+using ld = long double;
 // ----------------------<DEBUG>--------------------------- 
 void __print(int x) {cerr << x;}
 void __print(long x) {cerr << x;}
@@ -34,9 +34,26 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
 
+// ----------------------<FASTIO>--------------------------- 
+inline char gc(){static char buf[1000000],*p1=buf,*p2=buf;
+return p1==p2&&(p2=(p1=buf)+fread(buf,1,1000000,stdin),p1==p2)?EOF:*p1++;}
+
+ll read(){ll pos=1,num=0; char ch=getchar();
+while (!isdigit(ch)){if (ch=='-') pos=-1;ch=getchar();}
+while (isdigit(ch)){num=num*10+(ll)(ch-'0');ch=getchar();}
+return pos*num;}
+
+void write(ll x){if (x<0){putchar('-');write(-x);return;}
+if (x>=10) write(x/10);putchar(x%10+'0');}
+void writesp(ll x){write(x);putchar(' ');}
+void writeln(ll x){write(x);putchar('\n');}
+
+void write(int x){if (x<0){putchar('-');write(-x);return;}
+if (x>=10) write(x/10);putchar(x%10+'0');}
+void writesp(int x){write(x);putchar(' ');}
+void writeln(int x){write(x);putchar('\n');}
+
 // ----------------------<MACROS>--------------------------- 
-using ll = long long;
-using ld = long double;
 #define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 #define tr(ii, c) for (__typeof((c).begin()) ii = (c).begin(); ii != (c).end(); ii++)
 #define rtr(ii, c) for (__typeof((c).rbegin()) ii = (c).rbegin(); ii != (c).rend(); ii++)
@@ -74,7 +91,11 @@ const ll INF = 1e15 - 1;
 const ld EPS = 1e-8;
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};
 
-
+// -------------------------<RNG>-------------------------
+// RANDOM NUMBER GENERATOR
+mt19937 RNG(chrono::steady_clock::now().time_since_epoch().count());
+#define SHUF(v) shuffle(all(v), RNG);
+// Use mt19937_64 for 64 bit random numbers.
 
 // ----------------------<MATH>--------------------------- 
 template<typename T> T gcd(T a, T b){return(b?__gcd(a,b):a);} 
@@ -85,11 +106,39 @@ ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b 
 void solve()
 {
     ll count;
+    // count = read();
     cin >> count;
     vector<ll> values(count);
+    ll sum = 0;
     for (int i = 0; i < count; i++)
     {
+        // values[i] = read();
         cin >> values[i];
+        sum+=values[i];
+    }
+
+    if(sum%((count*(count+1))/2) != 0){
+        cout << "NO";
+        return;
+    }
+
+    sum/= (count*(count+1))/2;
+
+    vl sol(count);
+
+    for(int i = count - 1; i >= 0; i--) {
+        ll res = (values[i] - values[(i + 1) % count] + sum);
+        if(res % count != 0 || res <= 0) {
+            cout << "NO";
+            return;
+        }
+
+        sol[(i + 1) % count] = res /count;
+    }
+
+    cout << "YES" << endl;
+    tr(ii,sol){
+        cout << *ii << " ";
     }
 
 }
@@ -99,14 +148,15 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    ll t = 1;
+    int t = 1;
+    // cin >> t;
+    // t = read();
     cin >> t;
     // Comment out above if only 1 test case
     while (t--){
         solve();
+        // putchar('\n');
         cout << "\n";
-
-        // cout << (solve() ? "Yes" : "No") << '\n';
     }
     return 0;
 }

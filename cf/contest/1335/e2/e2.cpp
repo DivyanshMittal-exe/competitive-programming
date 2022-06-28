@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 25 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -84,13 +84,42 @@ ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b 
 
 void solve()
 {
-    ll count;
+    int count;
     cin >> count;
-    vector<ll> values(count);
+    vector<int> values(count);
     for (int i = 0; i < count; i++)
     {
         cin >> values[i];
+        --values[i];
     }
+
+    vvi cnt(200,vi(count+1,0));
+    vvi pos(200);
+
+    rep(i,0,count){
+        rep(j,0,200){
+            cnt[j][i+1] = cnt[j][i];
+        }
+        cnt[values[i]][i+1]++;
+        pos[values[i]].push_back(i);
+    }
+
+    int ans = 0;
+
+    rep(i,0,200){
+        ans = maX(ans,sz(pos[i]));
+        rep(j,0,sz(pos[i])/2){
+            int l = pos[i][j] + 1;
+            int r = pos[i][sz(pos[i]) - j - 1];
+            rep(k,0,200){
+                ans = maX(ans,2*(j+1) + cnt[k][r] - cnt[k][l]);
+            }
+        }
+    }
+
+    cout << ans;
+
+
 
 }
 
@@ -105,8 +134,6 @@ int main()
     while (t--){
         solve();
         cout << "\n";
-
-        // cout << (solve() ? "Yes" : "No") << '\n';
     }
     return 0;
 }

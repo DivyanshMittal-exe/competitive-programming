@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 25 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -82,6 +82,8 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
 
+
+
 void solve()
 {
     ll count;
@@ -90,6 +92,38 @@ void solve()
     for (int i = 0; i < count; i++)
     {
         cin >> values[i];
+    }
+
+    vector<pair<ll,int>> minpr(count),maxpr(count),mins(count),maxs(count);
+
+    minpr[0] = {values[0],0};
+    maxpr[0] = {values[0],0};
+    mins[0] = {values[count-1],count-1};
+    maxs[0] = {values[count-1],count-1};
+
+    rep(i,1,count){
+        minpr[i] = minpr[i-1];
+        maxpr[i] = maxpr[i-1];
+        if(minpr[i].first > values[i]){
+            minpr[i] = {values[i],i};
+        }
+        if(maxpr[i].first < values[i]){
+            maxpr[i] = {values[i],i};
+        }
+    }
+    rep(i,count-1,0){
+        mins[i] = mins[i+1];
+        maxs[i] = maxs[i+1];
+        if(mins[i].first > values[i]){
+            mins[i] = {values[i],i};
+        }
+        if(maxs[i].first < values[i]){
+            maxs[i] = {values[i],i};
+        }
+    }
+
+    auto splmax = [](int l){
+
     }
 
 }
@@ -105,8 +139,6 @@ int main()
     while (t--){
         solve();
         cout << "\n";
-
-        // cout << (solve() ? "Yes" : "No") << '\n';
     }
     return 0;
 }
