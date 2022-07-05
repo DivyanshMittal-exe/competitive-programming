@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 28 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -82,10 +82,21 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
 
+
+
+
 void solve()
 {
     ll n;
     cin >> n;
+    vector<int> divisors(n+1,0);
+
+    rep(i,1,n+1){
+        for(int j = 2*i; j <= n; j+=i){
+            divisors[j]++;
+        }
+    }
+    
     vector<ll> values(n);
     for (int i = 0; i < n; i++)
     {
@@ -100,7 +111,7 @@ int main()
     cin.tie(nullptr);
     cout.tie(nullptr);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     // Comment out above if only 1 test case
     while (t--){
         solve();

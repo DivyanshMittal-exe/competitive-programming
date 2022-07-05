@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 28 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -84,13 +84,36 @@ ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b 
 
 void solve()
 {
-    ll n;
-    cin >> n;
+    ll n,k;
+    cin >> n >> k;
     vector<ll> values(n);
     for (int i = 0; i < n; i++)
     {
         cin >> values[i];
     }
+
+    if(k == 1){
+        cout << (n-1)/2;
+        return;
+    }
+
+    int sum = 0;
+    ll maxsum = 0;
+
+    // bool waslast = false;
+    
+
+    for (int i = 1; i < n-1; i++)
+    {
+        if(values[i] > values[i-1] + values[i+1]){
+            ++sum;
+            // maxsum = maX(sum,maxsum);
+        }else{
+            // sum = 0;
+        }
+    }
+
+    cout << sum;
 
 }
 

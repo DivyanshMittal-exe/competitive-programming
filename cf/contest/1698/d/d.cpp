@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 28 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -86,11 +86,24 @@ void solve()
 {
     ll n;
     cin >> n;
-    vector<ll> values(n);
-    for (int i = 0; i < n; i++)
-    {
-        cin >> values[i];
-    }
+
+    int l = 1, r = n;
+
+    while (l < r) {
+	    int mid = (l + r) / 2;
+	    cout << '?' << ' ' << l << ' ' << mid << endl;
+	    int x, cnt = 0;
+	    for (int i = 0; i < mid - l + 1; i++) {
+	        cin >> x;
+	        if (l <= x && x <= mid) {cnt++;}
+	    }
+	    if (cnt % 2 == 0) {l = mid + 1;}
+	    else {r = mid;}
+	}
+	cout << '!' << ' ' << l << endl;
+
+
+    
 
 }
 
@@ -104,7 +117,7 @@ int main()
     // Comment out above if only 1 test case
     while (t--){
         solve();
-        cout << "\n";
+        // cout << "\n";
 
         // cout << (solve() ? "Yes" : "No") << '\n';
     }

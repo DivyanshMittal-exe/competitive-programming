@@ -1,8 +1,15 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 04 07 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+
 using namespace std;
+using namespace __gnu_pbds;
+typedef pair<int, int> node;
+typedef tree<node, null_type, less<node>,
+            rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+
 mt19937 RNG(chrono::steady_clock::now().time_since_epoch().count());
 #define SHUF(v) shuffle(all(v), RNG);
 
@@ -91,6 +98,21 @@ void solve()
     {
         cin >> values[i];
     }
+
+    ll tot = 0LL;
+
+    ordered_set s;
+
+    rep(i,0,n){
+        ll lt = s.order_of_key(node(values[i],0));
+        ll gt = i - s.order_of_key(node(values[i],n));
+
+        tot+= min(lt,gt);
+        s.insert(node(values[i], i));
+    }
+
+    cout << tot;
+    
 
 }
 

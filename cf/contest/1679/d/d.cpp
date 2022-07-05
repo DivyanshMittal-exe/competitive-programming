@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 30 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -37,6 +37,7 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 // ----------------------<MACROS>--------------------------- 
 using ll = long long;
 using ld = long double;
+#define int ll
 #define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 #define tr(ii, c) for (__typeof((c).begin()) ii = (c).begin(); ii != (c).end(); ii++)
 #define rtr(ii, c) for (__typeof((c).rbegin()) ii = (c).rbegin(); ii != (c).rend(); ii++)
@@ -82,25 +83,109 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
 
+ll n,m,k;
+vvl tree;
+vector<ll> values;
+
+bool ok(int x){
+    vector<ll> visit(n,0);
+    vector<ll> dpt(n,0);
+
+    function<int(int)> dfs = [&](int index){
+        if(dpt[index])
+            return dpt[index];
+
+        dpt[index]  = 1;
+        visit[index] = -1;
+
+        for(auto child: tree[index]){
+            if(visit[child] == -1 && values[child] <= x){
+                dpt[index] = 1e18;
+                visit[index] = 0;
+                return dpt[index];
+            }
+
+            if(values[child] <= x){
+                dpt[index] = maX(dpt[index],1+dfs(child));
+            }
+        }
+
+        visit[index] = 0;
+        return dpt[index];
+    };
+
+    int maxpath = 0;
+
+    for(int i = 0; i < n; i++){
+        if(visit[i] == 0 && values[i] <= x){
+            maxpath = maX(maxpath,dfs(i));
+        }
+    }
+    
+    return maxpath >= k;
+
+
+    // for(int i = 0; i < n; i++){
+    //     if(dpt[i] >= k){
+    //         return true;
+    //     }
+    // }
+    // return false;
+}
+
 void solve()
 {
-    ll n;
-    cin >> n;
-    vector<ll> values(n);
+    
+    cin >> n >> m >> k;
+    tree.resize(n);
+    values.resize(n);
     for (int i = 0; i < n; i++)
     {
         cin >> values[i];
     }
+    for (int i = 0; i < m; i++)
+    {
+        ll x,y;
+        cin >> x >> y;
+        --x;
+        --y;
+        tree[x].push_back(y);
+    }
+
+    // int x = -1;
+
+    // for(int b = 1e9; b >= 1; b/=2){
+    //     while(ok(x+b))x+=b;
+    // }
+
+    int l = 1, r = 1e18,ans = -1;
+
+    while(l <= r){
+        int mid = (l+r)/2;
+
+        debug(l,r);
+
+        if(ok(mid)){
+            ans = mid;
+            r = mid-1;
+        }else{
+            l = mid+1;
+        }
+    }
+
+    cout << ans;
+
+
 
 }
 
-int main()
+signed main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     // Comment out above if only 1 test case
     while (t--){
         solve();

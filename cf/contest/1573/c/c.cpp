@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 04 07 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -81,17 +81,46 @@ template<typename T> T gcd(T a, T b){return(b?__gcd(a,b):a);}
 template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));} 
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
-
+const int N = 3 + 2e5;
 void solve()
-{
-    ll n;
-    cin >> n;
-    vector<ll> values(n);
-    for (int i = 0; i < n; i++)
-    {
-        cin >> values[i];
-    }
-
+{       
+        int n;
+        vector<int> edge[N];
+        int ind[N];
+        int b[N], t;
+        cin >> n;
+        set<int> q;
+        for (int i = 1; i <= n; ++i) {
+            cin >> ind[i];
+            for (int j = 1; j <= ind[i]; ++j) {
+                int u, v = i;
+                cin >> u;
+                edge[u].push_back(v);
+            }
+            if (!ind[i]) q.insert(i);
+        }
+        t = 0;
+        int ans = 1, x = 0;
+        while (q.size()) {
+            auto p = q.upper_bound(x);
+            if (p == q.end()) {
+                p = q.begin();
+                ++ans;
+            }
+            x = *p;
+            q.erase(p);
+            ++t;
+            for (auto &y : edge[x]) {
+                if (!--ind[y]) {
+                    q.insert(y);
+                }
+            }
+        }
+        if (t < n) {
+            cout << -1 ;
+            return;
+        }
+        cout << ans;
 }
 
 int main()

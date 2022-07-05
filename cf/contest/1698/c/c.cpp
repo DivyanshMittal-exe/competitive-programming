@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 28 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -82,7 +82,7 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
 
-void solve()
+bool solve()
 {
     ll n;
     cin >> n;
@@ -91,6 +91,103 @@ void solve()
     {
         cin >> values[i];
     }
+
+    if(n <= 6){
+
+        rep(i,0,n){
+          rep(j,i+1,n){
+           rep(k,j+1,n){
+             bool didifind = false;
+            rep(l,0,n){
+                if(values[i] + values[j] + values[k] == values[l]){
+                    didifind = true;
+                }
+            }
+            if(!didifind)   
+                return false;
+        } 
+        }  
+        }
+
+        return true;
+    }
+
+    ll no_ofp = 0;
+    ll p = 0;
+    ll no_ofn = 0;
+    ll ne = 0;
+
+    for(int i = 0; i < n; i++){
+        if(values[i] > 0){
+            no_ofp ++;
+            p = values[i];
+        }else if(values[i] < 0){
+            no_ofn++;
+            ne = values[i];
+        }
+    }
+
+    if(no_ofn == 0 && no_ofp == 0){
+        return true;
+    }
+
+    if(no_ofn > 1 || no_ofp > 1){
+        return false;
+    }
+
+    if(no_ofn + no_ofp == 1){
+        return true;
+    }
+
+    if(no_ofn == 1 && no_ofp == 1){
+        if (ne == -1*p){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    return false;
+
+    map<ll,ll> maps;
+
+    for(int i = 0; i < n; i++){
+        if(values[i]!= 0){
+            maps[values[i]]++;
+        }
+
+        if(maps.size()>=3){
+            return false;
+        }
+    }
+
+    if(maps.size() == 0){
+        return true;
+    }
+
+    if(maps.size()==1){
+        if(maps.begin()->second == 1)
+            return true;
+        return false;
+    }
+
+    auto it = maps.begin();
+    if(maps.size()==2){
+        int k1 = it->first;
+        int k1f = it->second;
+
+        ++it;
+
+        int k2 = it->first;
+        int k2f = it->second;
+
+        if(k1 == -1*k2 && k1f == 1 && k2f == 1){
+            return true;
+        }
+        return false;
+    }
+
+    return false;
 
 }
 
@@ -103,10 +200,10 @@ int main()
     cin >> t;
     // Comment out above if only 1 test case
     while (t--){
-        solve();
-        cout << "\n";
+        // solve();
+        // cout << "\n";
 
-        // cout << (solve() ? "Yes" : "No") << '\n';
+        cout << (solve() ? "YES" : "NO") << '\n';
     }
     return 0;
 }

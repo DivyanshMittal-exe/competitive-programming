@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 28 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -91,7 +91,8 @@ void solve()
     {
         cin >> values[i];
     }
-
+    cout << values[0];
+    
 }
 
 int main()

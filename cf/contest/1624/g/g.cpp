@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 05 07 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -35,7 +35,10 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #endif
 
 // ----------------------<MACROS>--------------------------- 
+// using int = long long;
+
 using ll = long long;
+#define int ll
 using ld = long double;
 #define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 #define tr(ii, c) for (__typeof((c).begin()) ii = (c).begin(); ii != (c).end(); ii++)
@@ -66,6 +69,7 @@ typedef pair<string, string> pss;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
 typedef vector<pii> vii;
+typedef vector<vii> vvii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl;
 const ll MOD = 1e9 + 7;
@@ -82,19 +86,66 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
 
+bool check(const vvii& tree,int n, int c){
+    vector<bool> visited(n,false);
+    int kitna = 0;
+    function<void(int)> dfs = [&](int node){
+                visited[node] = true;
+                for(auto x: tree[node])
+                    if((c | x.second) == c )
+                        if(!visited[x.first])
+                            dfs(x.first);
+        };
+    
+
+    dfs(0);
+
+    for(auto x: visited)
+        if(!x)
+            return false;
+    return true;
+
+    // if(kitna == n)
+    //         return true;
+    // return false;
+    
+}
+
 void solve()
 {
-    ll n;
-    cin >> n;
-    vector<ll> values(n);
+    ll n,m;
+    cin >> n >> m;
+    vvii values(n);
     for (int i = 0; i < n; i++)
     {
-        cin >> values[i];
+        int u,v,w;
+        cin >> u >> v >> w;
+        values[u-1].push_back({v-1,w});
+        values[v-1].push_back({u-1,w});
+        // cin >> values[i];
     }
+
+    ll final_ans = (1LL << 31) - 1;
+    int bit = 30;
+    // for(; final_ans < 1e9; bit++){
+    //     final_ans = 2 * final_ans + 1;
+    // }
+
+    for(int i = bit; i >= 0; i--){
+        final_ans -= ((ll)1LL << i);
+        debug(final_ans);
+        if(!check(values,n,final_ans)){
+            debug(0);
+            final_ans += 1LL << i;
+        }
+            // final_ans -= 1<<i;
+    }
+
+    cout << final_ans;
 
 }
 
-int main()
+signed main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);

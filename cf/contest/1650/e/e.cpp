@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 29 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -84,15 +84,51 @@ ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b 
 
 void solve()
 {
-    ll n;
-    cin >> n;
-    vector<ll> values(n);
-    for (int i = 0; i < n; i++)
+    ll n ,d;
+    cin >> n >>d;
+    vector<ll> values(n+1);
+    for (int i = 1; i < n+1; i++)
     {
         cin >> values[i];
     }
 
+    int mini  = INT_MAX;
+    int minloc = -1;
+    
+    rep(i,1,n+1){
+        if(values[i] - values[i - 1] - 1 < mini){
+            mini = values[i] - values[i - 1] - 1;
+            minloc = i;
+        }
+    }
+
+    auto s(values);
+
+    s.erase(s.begin()+minloc);
+
+    int mx = 0, mn = INT_MAX;
+    for(int i = 1; i < n; ++i){
+        mx = maX(mx, s[i] - s[i - 1] - 1);
+        mn = miN(mn, s[i] - s[i - 1] - 1);
+    }
+    ll ans = miN(mn, maX(d - s.back() - 1, (mx - 1) / 2));
+
+    if(minloc > 1){
+        s[minloc - 1] = values[minloc];
+    }
+
+    mx = 0, mn = INT_MAX;
+    for(int i = 1; i < n; ++i){
+        mx = maX(mx, s[i] - s[i - 1] - 1);
+        mn = miN(mn, s[i] - s[i - 1] - 1);
+    }
+    ll ans2 = miN(mn, maX(d - s.back() - 1, (mx - 1) / 2));
+
+    ans = max(ans, ans2);
+    cout << ans;
+
 }
+
 
 int main()
 {

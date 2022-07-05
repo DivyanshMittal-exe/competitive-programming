@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 30 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -87,10 +87,35 @@ void solve()
     ll n;
     cin >> n;
     vector<ll> values(n);
+
+    vector<bool> amihere(1e6+5,false);
+
+    int maxe = -1;
+
     for (int i = 0; i < n; i++)
     {
-        cin >> values[i];
+        int x;
+        cin >> x;
+
+        maxe = maX(maxe,x);
+     
+        amihere[x]  = true;
     }
+
+    ll sol = 0;
+    for(int i = 1; i < maxe + 1; i ++){
+        int gcumulated = 0;
+        for(int j = i; j <= maxe; j+=i ){
+            if(amihere[j])
+                gcumulated = gcd(gcumulated,j);
+        }
+
+        if(gcumulated == i && !amihere[i])
+            sol++;
+    }
+    cout << sol;
+
+
 
 }
 
@@ -100,7 +125,7 @@ int main()
     cin.tie(nullptr);
     cout.tie(nullptr);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     // Comment out above if only 1 test case
     while (t--){
         solve();

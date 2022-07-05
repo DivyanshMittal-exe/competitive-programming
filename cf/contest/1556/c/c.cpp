@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 04 07 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -82,17 +82,60 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
 
+const int N = 3e5 + 10;
 void solve()
 {
-    ll n;
-    cin >> n;
-    vector<ll> values(n);
-    for (int i = 0; i < n; i++)
-    {
-        cin >> values[i];
-    }
+	int n;
+	cin >> n;
+	vector<int> a(n);
+	for(int i = 0; i < n; ++i) {
+		cin >> a[i];
+	}
+	vector<long long> heights;
+	heights.push_back(0);
+	for(int i = 0; i < n; ++i) {
+		if(i % 2 == 0) {
+			heights.push_back(heights.back() + a[i]);
+		}
+		else {
+			heights.push_back(heights.back() - a[i]);
+		}
+	}
+	n = heights.size();
+	long long answer = 0;
+	long long min_so_far = 0;
+	vector<pair<long long, int>> valleys; // middles of M-shapes,  (height, count)
+	valleys.emplace_back(LONG_LONG_MIN, 0);
+	for(int i = 0; i < n - 1; ++i) {
+		min_so_far = min(min_so_far, heights[i]);
+		if(heights[i] > heights[i+1]) {
+			long long high = heights[i];
+			long long low = heights[i+1];
+			long long extra = high - max(min_so_far, low);
+			while(valleys.back().first > low) {
+				// O(N) because only N objects are inserted so only N times you can pop
+				answer += valleys.back().second;
+				valleys.pop_back();
+			}
+			if(valleys.back().first == low) {
+				answer += valleys.back().second;
+			}
+			if(low >= min_so_far) {
+				if(valleys.back().first == low) {
+					valleys.back().second++;
+				}
+				else {
+					valleys.push_back({low, 1});
+				}
+			}
+			answer += max(0LL, extra);
+		}
+	}
+	cout << answer;
+
 
 }
+
 
 int main()
 {
@@ -100,7 +143,7 @@ int main()
     cin.tie(nullptr);
     cout.tie(nullptr);
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     // Comment out above if only 1 test case
     while (t--){
         solve();

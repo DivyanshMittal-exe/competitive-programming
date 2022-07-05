@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 29 06 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -82,6 +82,20 @@ template<typename T> T lcm(T a, T b){return(a*(b/gcd(a,b)));}
 ll cdiv(ll a, ll b) { return a / b + ((a ^ b) > 0 && a % b); } // divide a by b rounded up
 ll fdiv(ll a, ll b) { return a / b - ((a ^ b) < 0 && a % b); } // divide a by b rounded down
 
+bool isvalid(int l,const vector<ll>& heights){
+    debug(l);
+    vector<ll> nh(heights);
+    for (int i = sz(heights) - 1; i >= 2; --i){
+        // debug(i);
+        if (nh[i] < l) return false;
+        int d = min(heights[i], nh[i] - l) / 3;
+        nh[i - 1] += d;
+        nh[i - 2] += 2 * d;
+    }
+    return nh[0] >= l and nh[1] >= l;;
+}
+
+
 void solve()
 {
     ll n;
@@ -91,6 +105,20 @@ void solve()
     {
         cin >> values[i];
     }
+
+    int l = 0;
+    int r = *(max_element(all(values)));
+    // while(l < r){
+    //     ll mid = (l+r)/2;
+    //     if(isvalid(mid,values)){l = mid;}else{r = mid+1;}
+    // }
+    
+    int loc = -1;
+    for(int b = r; b >= 1; b/=2){
+        while(isvalid(loc+b,values))loc+=b;
+    }
+
+    cout << loc;
 
 }
 

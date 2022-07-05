@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 04 07 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -90,6 +90,22 @@ void solve()
     for (int i = 0; i < n; i++)
     {
         cin >> values[i];
+    }
+
+    deque<int> sol;
+
+    sol.push_back(values[0]);
+
+    rep(i,1,n){
+        if(values[i] < sol.front()){
+            sol.push_front(values[i]);
+        }else{
+            sol.push_back(values[i]);
+        }
+    }
+
+    tr(i,sol){
+        cout << *i << " ";
     }
 
 }

@@ -101,93 +101,41 @@ T mod_inverse(T a, T n = MOD)
 
 /****************** Prime Generator **********************/
 /****************** Prime Generator End **********************/
-int countsize(vi& size , vvi& tree, int node, vi& visitedcount){
-
-    visitedcount[node] = 1;
-    // cout << node << endl;
-    int sum = 0;
-    for (int i = 0; i < tree[node].size(); i++)
-    {
-        if(visitedcount[tree[node][i]] ==0){
-            sum += countsize(size,tree,tree[node][i],visitedcount);
-        }else{
-            tree[node].erase(tree[node].begin() + i);
-            --i;
-        }
-
-    }
-    
-    size[node] = 1 + sum;
-    return 1 + sum;
-}
-
-
-int savetree(vi& size , vvi& tree, int node){
-
-    if(tree[node].size() == 0){
-        return 0;
-    }else if (tree[node].size() == 1){
-        return size[node] - 2;
-    }else{
-        if(size[tree[node][0]] > size[tree[node][1]] ){
-            return size[tree[node][0]] + savetree(size,tree,tree[node][1])-1;
-        }else{
-            return size[tree[node][1]] + savetree(size,tree,tree[node][0])-1;
-        }
-    }
-
-}
-
-
-void solve()
+vector<vector<int>> g(300005);
+int ch[300005],dp[300005];
+ 
+void dfs(int p, int q)
 {
-    int count; 
-    cin >> count;
-    vvi tree(count+1);
-    vi sizes(count+1);
-    vi visitedcount(count+1);
-
-    for (int i = 0; i < count+1; i++)
+    ch[p]=1,dp[p]=0; int s=0;
+    for (auto it : g[p]) if (it!=q)
     {
-        visitedcount[i] = 0;
+        dfs(it,p); s+=dp[it];
+        ch[p]+=ch[it];
     }
-    
-    for (int i = 0; i < count-1; i++)
+    for (auto it : g[p]) if (it!=q)
     {
-        int l,p;
-        cin >> l >> p;
-
-        tree[p].push_back(l);
-        tree[l].push_back(p);
+        dp[p]=max(dp[p],s-dp[it]+ch[it]-1);
     }
-
-    countsize(sizes,tree,1,visitedcount);
-    // int saved = 0;
-
-    cout << savetree(sizes,tree,1) << endl;
-
 }
-
+ 
 int main()
 {
-#ifndef ONLINE_JUDGE
-    auto start = high_resolution_clock::now();
-#endif
     ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-    int t = 1;
-    // ll t = 1;
-    cin >> t;
-    // Comment out above if only 1 test case
-    // t = 1;
+    cin.tie(0),cout.tie(0);
+ 
+    int t; cin>>t;
     while (t--)
-        solve();
-
-#ifndef ONLINE_JUDGE
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(stop - start);
-    cerr << "Time taken: " << duration.count() << " ms" << endl;
-#endif
-    return 0;
+    {
+        int n; cin>>n;
+        for (int i=1;i<=n;i++) g[i].clear();
+        for (int i=1;i<n;i++)
+        {
+            int u,v; cin>>u>>v;
+            g[u].push_back(v);
+            g[v].push_back(u);
+        }
+ 
+        dfs(1,0);
+        cout<<dp[1]<<"\n";
+    }
 }
