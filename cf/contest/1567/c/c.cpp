@@ -1,5 +1,5 @@
-// $%U%$  
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe  
+// 06 07 2022
 #pragma GCC optimize("Ofast,unroll-loops") 
 #include <bits/stdc++.h>
 using namespace std;
@@ -86,11 +86,27 @@ void solve()
 {
     ll n;
     cin >> n;
-    vector<ll> values(n);
-    for (int i = 0; i < n; i++)
-    {
-        cin >> values[i];
+
+    auto s = to_string(n);
+
+    ll a = 0;
+    ll b = 0;
+
+    for(int i = 0; i < s.size(); i++){
+        if(i%2){
+            a = 10*a + (s[i]-'0');
+        }else{
+            b = 10*b + (s[i]-'0');
+        }
     }
+
+    cout << (a+1)*(b+1) - 2;
+
+    // vector<ll> values(n);
+    // for (int i = 0; i < n; i++)
+    // {
+    //     cin >> values[i];
+    // }
 
 }
 
