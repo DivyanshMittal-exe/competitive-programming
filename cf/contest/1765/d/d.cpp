@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 09 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -115,14 +115,45 @@ ll cdiv(ll a, ll b) {
 ll fdiv(ll a, ll b) {
   return a / b - ((a ^ b) < 0 && a % b);
 } // divide a by b rounded down
+#define N 200000
 
-void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+int a[N], n, s;
+
+bool can(int x) {
+  int l = x - 1, r = n - 1;
+  while (l < r) {
+    if (a[r] > s - a[l])
+      return false;
+    ++l;
+    if (l < r) {
+      if (a[l] > s - a[r])
+        return false;
+      --r;
+    }
   }
+  return true;
+}
+void solve() {
+  long long sum = 0;
+  scanf("%d %d\n", &n, &s);
+  for (int i = 0; i < n; ++i) {
+    scanf("%d", &a[i]);
+    sum += a[i];
+  }
+
+  sort(a, a + n, greater<int>());
+
+  int l = 1, r = n;
+  while (l < r) {
+    int m = (l + r) >> 1;
+    if (can(m))
+      r = m;
+    else
+      l = m + 1;
+  }
+
+  long long ans = sum + r;
+  cout << ans << endl;
 }
 
 int main() {
@@ -130,11 +161,11 @@ int main() {
   cin.tie(nullptr);
   cout.tie(nullptr);
   ll t = 1;
-  cin >> t;
+  // cin >> t;
   // Comment out above if only 1 test case
   while (t--) {
     solve();
-    cout << "\n";
+    // cout << "\n";
 
     // cout << (solve() ? "Yes" : "No") << '\n';
     // cout << (solve() ? "YES" : "NO") << '\n';

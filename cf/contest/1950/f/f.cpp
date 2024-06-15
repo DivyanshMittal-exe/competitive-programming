@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 04 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -117,12 +117,29 @@ ll fdiv(ll a, ll b) {
 } // divide a by b rounded down
 
 void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+  int a, b, c;
+  cin >> a >> b >> c;
+  if (a + 1 != c) {
+    cout << -1 << '\n';
+    return;
   }
+  if (a + b + c == 1) {
+    cout << 0 << '\n';
+    return;
+  }
+  int curr = 1, next = 0, res = 1;
+  for (int i = 0; i < a + b; i++) {
+    if (!curr) {
+      swap(next, curr);
+      res++;
+    }
+    curr--;
+    next++;
+    if (i < a) {
+      next++;
+    }
+  }
+  cout << res << '\n';
 }
 
 int main() {
@@ -134,7 +151,8 @@ int main() {
   // Comment out above if only 1 test case
   while (t--) {
     solve();
-    cout << "\n";
+    // cout << "\n";
+    // cout << solve() << endl;
 
     // cout << (solve() ? "Yes" : "No") << '\n';
     // cout << (solve() ? "YES" : "NO") << '\n';

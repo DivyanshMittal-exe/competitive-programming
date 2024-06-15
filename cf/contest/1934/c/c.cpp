@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 05 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -116,12 +116,31 @@ ll fdiv(ll a, ll b) {
   return a / b - ((a ^ b) < 0 && a % b);
 } // divide a by b rounded down
 
+int make_query(int x, int y) {
+  cout << "? " << x << " " << y << endl;
+  ll result;
+  cin >> result;
+  return result;
+}
+
 void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+  ll n, m;
+  cin >> n >> m;
+
+  int d1 = make_query(1, 1);
+
+  int x_val = maX(1, d1 + 2 - m);
+  int p1 = make_query(x_val, d1 + 2 - m);
+
+  int y_val = maX(1, d1 + 2 - n);
+  int p2 = make_query(d1 + 2 - y_val, y_val);
+
+  if (!make_query(x_val + p1 / 2, d1 + 2 - (x_val + p1 / 2))) {
+    cout << "! " << x_val + p1 / 2 << " " << d1 + 2 - (x_val + p1 / 2) << endl;
+
+  } else {
+    cout << "! " << d1 + 2 - (y_val + p2 / 2) << " " << (y_val + p2 / 2)
+         << endl;
   }
 }
 

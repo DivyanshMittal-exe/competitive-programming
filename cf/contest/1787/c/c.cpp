@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 09 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -115,14 +115,26 @@ ll cdiv(ll a, ll b) {
 ll fdiv(ll a, ll b) {
   return a / b - ((a ^ b) < 0 && a % b);
 } // divide a by b rounded down
-
+const int N = 200005;
+long long f[N][2], x[N], y[N];
 void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+  int i, n, s, j;
+  cin >> n >> s;
+  for (i = 1; i <= n; i++) {
+    cin >> j;
+    if (i == 1 || i == n)
+      x[i] = y[i] = j;
+    else if (j <= s)
+      x[i] = 0, y[i] = j;
+    else
+      x[i] = s, y[i] = j - s;
   }
+  f[1][0] = f[1][1] = 0;
+  for (i = 2; i <= n; i++) {
+    f[i][0] = min(f[i - 1][0] + y[i - 1] * x[i], f[i - 1][1] + x[i - 1] * x[i]);
+    f[i][1] = min(f[i - 1][0] + y[i - 1] * y[i], f[i - 1][1] + x[i - 1] * y[i]);
+  }
+  cout << f[n][0];
 }
 
 int main() {

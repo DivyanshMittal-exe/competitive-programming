@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 06 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -115,14 +115,33 @@ ll cdiv(ll a, ll b) {
 ll fdiv(ll a, ll b) {
   return a / b - ((a ^ b) < 0 && a % b);
 } // divide a by b rounded down
+const int maxb = 60;
 
+bool get_bit(int64_t a, int i) { return a & (1ll << i); }
 void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+
+  int64_t a, b, r;
+  cin >> a >> b >> r;
+  int64_t x = 0;
+  bool first_bit = 1;
+  if (a > b)
+    swap(a, b);
+  for (int i = maxb - 1; i >= 0; --i) {
+    bool bit_a = get_bit(a, i);
+    bool bit_b = get_bit(b, i);
+    if (bit_a != bit_b) {
+      if (first_bit) {
+        first_bit = 0;
+      } else {
+        if (!bit_a && x + (1ll << i) <= r) {
+          x += (1ll << i);
+          a ^= (1ll << i);
+          b ^= (1ll << i);
+        }
+      }
+    }
   }
+  cout << b - a;
 }
 
 int main() {

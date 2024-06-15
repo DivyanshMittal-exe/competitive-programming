@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe1800f
+// 09 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -101,7 +101,6 @@ typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl;
 const ll MOD = 1e9 + 7;
-const ll MAXN = 1e6;
 const ll INF = 1e15 - 1;
 const ld EPS = 1e-8;
 const int dx[4]{1, 0, -1, 0}, dy[4]{0, 1, 0, -1};
@@ -116,13 +115,49 @@ ll fdiv(ll a, ll b) {
   return a / b - ((a ^ b) < 0 && a % b);
 } // divide a by b rounded down
 
-void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+const int MAXN = 200200;
+const int L = 26;
+
+int n;
+string srr[MAXN];
+int arr[MAXN], brr[MAXN], crr[MAXN];
+
+void build() {
+  for (int i = 0; i < n; ++i) {
+    for (char c : srr[i]) {
+      arr[i] ^= (1 << (c - 'a'));
+      brr[i] |= (1 << (c - 'a'));
+    }
   }
+}
+
+long long calc(int c) {
+  int k = 0;
+  for (int i = 0; i < n; ++i)
+    if (brr[i] >> c & 1 ^ 1)
+      crr[k++] = arr[i];
+  sort(crr, crr + k);
+  int mask = -1 & ((1 << L) - 1) ^ (1 << c);
+  long long ans = 0;
+  for (int i = 0; i < k; ++i) {
+    auto itl = lower_bound(crr, crr + k, crr[i] ^ mask);
+    auto itr = upper_bound(crr, crr + k, crr[i] ^ mask);
+    ans += itr - itl;
+  }
+  return ans >> 1LL;
+}
+
+void solve() {
+  cin >> n;
+  for (int i = 0; i < n; ++i)
+    cin >> srr[i];
+  build();
+
+  long long ans = 0;
+  for (int c = 0; c < L; ++c)
+    ans += calc(c);
+
+  cout << ans;
 }
 
 int main() {
@@ -130,7 +165,7 @@ int main() {
   cin.tie(nullptr);
   cout.tie(nullptr);
   ll t = 1;
-  cin >> t;
+  // cin >> t;
   // Comment out above if only 1 test case
   while (t--) {
     solve();

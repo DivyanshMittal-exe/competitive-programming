@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 04 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -117,12 +117,53 @@ ll fdiv(ll a, ll b) {
 } // divide a by b rounded down
 
 void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+  ll n, m;
+  cin >> n >> m;
+
+  vector<vector<unsigned long long>> val(n, vector<unsigned long long>(m, 0));
+
+  vvi dp(n, vi(m, 0));
+  rep(i, 0, n) {
+    rep(j, 0, m) { cin >> val[i][j]; }
   }
+
+  ll ans = gcd(val[0][0], val[n - 1][m - 1]);
+
+  long long sol = 1;
+  for (int x = 1; x * x <= ans; x++) {
+    if (ans % x)
+      continue;
+
+    std::array<long long, 2> cand{x, ans / x};
+
+    for (auto div : cand) {
+
+      for (int i = 0; i < n; i++) {
+
+        dp[i].assign(m, 0);
+      }
+      dp[0][0] = 1;
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+
+          if (val[i][j] % div)
+            continue;
+
+          if (i)
+            dp[i][j] = max(dp[i][j], dp[i - 1][j]);
+
+          if (j)
+            dp[i][j] = max(dp[i][j], dp[i][j - 1]);
+        }
+      }
+
+      if (dp[n - 1][m - 1]) {
+        sol = max(sol, div);
+      }
+    }
+  }
+
+  cout << sol;
 }
 
 int main() {

@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 05 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -119,9 +119,34 @@ ll fdiv(ll a, ll b) {
 void solve() {
   ll n;
   cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+
+  string s;
+  cin >> s;
+  vector<int> values(n + 1);
+
+  for (int k = n; k >= 0; k--) {
+    int curr_sum = 0;
+    values.assign(n + 1, 0);
+    bool am_i_done = true;
+    for (int i = 0; i < n; i++) {
+      curr_sum -= values[i];
+      int curr_bit = (s[i] - '0');
+      curr_bit ^= (curr_sum % 2);
+
+      if (curr_bit == 0) {
+        if (i + k <= n) {
+          values[i + k]++;
+          curr_sum++;
+        } else {
+          am_i_done = false;
+          break;
+        }
+      }
+    }
+    if (am_i_done) {
+      cout << k;
+      return;
+    }
   }
 }
 

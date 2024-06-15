@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 09 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -117,12 +117,36 @@ ll fdiv(ll a, ll b) {
 } // divide a by b rounded down
 
 void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+
+  int n, m;
+  cin >> n >> m;
+  vector<pair<int, int>> adj[n + 1];
+  for (int i = 0; i < m; i++) {
+    int u, v;
+    cin >> u >> v;
+    adj[u].push_back({v, i});
+    adj[v].push_back({u, i});
   }
+  vector<int> ans(m, 1);
+  for (int i = 1; i < n + 1; i++) {
+    if (adj[i].size() != n - 1) {
+      for (auto value : adj[i]) {
+        ans[value.second] = 2;
+      }
+      cout << 2 << endl;
+      for (auto value : ans)
+        cout << value << " ";
+      cout << endl;
+      return;
+    }
+  }
+  ans[adj[1][0].second] = 3;
+  for (int i = 1; i < n - 1; i++) {
+    ans[adj[1][i].second] = 2;
+  }
+  cout << 3 << endl;
+  for (auto value : ans)
+    cout << value << " ";
 }
 
 int main() {

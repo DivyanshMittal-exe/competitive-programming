@@ -1,5 +1,6 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 03 06 2024
+#pragma GCC optimize("Ofast,unroll-loops")
 
 #include <algorithm>
 #include <chrono>

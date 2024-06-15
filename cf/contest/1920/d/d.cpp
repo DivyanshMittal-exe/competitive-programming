@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 15 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -116,12 +116,40 @@ ll fdiv(ll a, ll b) {
   return a / b - ((a ^ b) < 0 && a % b);
 } // divide a by b rounded down
 
+ll size_of_array[MAXN] = {};
+
+ll last_elements[MAXN] = {};
+
 void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+  ll n, q;
+
+  cin >> n >> q;
+
+  rep(i, 1, n + 1) {
+    int b, x;
+
+    cin >> b >> x;
+    if (b == 1) {
+      last_elements[i] = x;
+      size_of_array[i] = size_of_array[i - 1] + 1;
+    } else {
+
+      last_elements[i] = last_elements[i - 1];
+      size_of_array[i] = size_of_array[i - 1] > ((ll)2e18 / x)
+                             ? (ll)2e18
+                             : size_of_array[i - 1] * x;
+    }
+  }
+
+  rep(i, 0, q) {
+    int k;
+    cin >> k;
+
+    int index = lower_bound(size_of_array + 1, size_of_array + MAXN, k);
+
+    if (size_of_array[index] == k) {
+      cout << last_element[ii]
+    }
   }
 }
 

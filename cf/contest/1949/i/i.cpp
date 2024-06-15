@@ -1,5 +1,6 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 03 06 2024
+#pragma GCC optimize("Ofast,unroll-loops")
 
 #include <algorithm>
 #include <chrono>
@@ -116,21 +117,74 @@ ll fdiv(ll a, ll b) {
   return a / b - ((a ^ b) < 0 && a % b);
 } // divide a by b rounded down
 
-void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+bool dfs(vector<vector<int>> &g, vi &col, int node, pair<int, int> &p,
+         int color) {
+  col[node] = color;
+  if (color == 0)
+    p.first++;
+  else
+    p.second++;
+
+  bool flag = true;
+
+  for (auto &child : g[node]) {
+
+    if (col[child] == -1) {
+      bool key = dfs(g, col, child, p, color ^ 1);
+
+      if (!key)
+        flag = false;
+    }
+
+    else if (col[child] == color)
+      flag = false;
   }
+  return flag;
 }
 
+void solve() {
+  int n;
+  cin >> n;
+  vector<vector<int>> v(n, vector<int>(3)), g(n);
+
+  for (int i = 0; i < n; i++) {
+    cin >> v[i][0];
+    cin >> v[i][1];
+    cin >> v[i][2];
+  }
+  for (int i = 0; i < n; i++) {
+    for (int j = i + 1; j < n; j++) {
+
+      if ((v[i][2] + v[j][2]) * (v[i][2] + v[j][2]) ==
+          (v[i][0] - v[j][0]) * (v[i][0] - v[j][0]) +
+              (v[i][1] - v[j][1]) * (v[i][1] - v[j][1])) {
+        g[i].push_back(j);
+        g[j].push_back(i);
+      }
+    }
+  }
+  // debug(g);
+  vi col(n, -1);
+  for (int i = 0; i < n; i++) {
+    if (col[i] == -1) {
+      pair<int, int> p = {0, 0};
+
+      if (dfs(g, col, i, p, 0)) {
+        if (p.first != p.second) {
+          cout << "YES";
+          return;
+        }
+      }
+    }
+  }
+  cout << "NO";
+}
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(nullptr);
   cout.tie(nullptr);
   ll t = 1;
-  cin >> t;
+  // cin >> t;
   // Comment out above if only 1 test case
   while (t--) {
     solve();

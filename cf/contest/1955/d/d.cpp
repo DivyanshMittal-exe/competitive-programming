@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 04 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -117,12 +117,45 @@ ll fdiv(ll a, ll b) {
 } // divide a by b rounded down
 
 void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+  int n, m;
+  size_t k;
+  cin >> n >> m >> k;
+  vector<int> a(n);
+  for (int i = 0; i < n; ++i) {
+    cin >> a[i];
   }
+  multiset<int> todo, done, extra;
+  for (int j = 0; j < m; ++j) {
+    int b;
+    cin >> b;
+    todo.insert(b);
+  }
+  for (int j = 0; j < m; ++j) {
+    if (todo.find(a[j]) != todo.end()) {
+      todo.erase(todo.find(a[j]));
+      done.insert(a[j]);
+    } else {
+      extra.insert(a[j]);
+    }
+  }
+  int ans = (done.size() >= k);
+  for (int r = m; r < n; ++r) {
+    int old = a[r - m];
+    if (extra.find(old) != extra.end()) {
+      extra.erase(extra.find(old));
+    } else if (done.find(old) != done.end()) {
+      done.erase(done.find(old));
+      todo.insert(old);
+    }
+    if (todo.find(a[r]) != todo.end()) {
+      todo.erase(todo.find(a[r]));
+      done.insert(a[r]);
+    } else {
+      extra.insert(a[r]);
+    }
+    ans += (done.size() >= k);
+  }
+  cout << ans << '\n';
 }
 
 int main() {
@@ -134,7 +167,7 @@ int main() {
   // Comment out above if only 1 test case
   while (t--) {
     solve();
-    cout << "\n";
+    // cout << "\n";
 
     // cout << (solve() ? "Yes" : "No") << '\n';
     // cout << (solve() ? "YES" : "NO") << '\n';

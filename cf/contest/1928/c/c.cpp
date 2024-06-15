@@ -1,5 +1,5 @@
-// $%U%$
-// $%D%$ $%M%$ $%Y%$
+// divyanshmittal-exe
+// 06 06 2024
 
 #include <algorithm>
 #include <chrono>
@@ -116,29 +116,44 @@ ll fdiv(ll a, ll b) {
   return a / b - ((a ^ b) < 0 && a % b);
 } // divide a by b rounded down
 
-void solve() {
-  ll n;
-  cin >> n;
-  vector<ll> values(n);
-  for (int i = 0; i < n; i++) {
-    cin >> values[i];
+#include <iostream>
+#include <unordered_set>
+
+using namespace std;
+
+unordered_set<int> solve(int a) {
+  unordered_set<int> candidates;
+  for (int i = 1; i * i <= a; i++) {
+    if (a % i == 0) {
+      if (i % 2 == 0) // segment len should be even
+        candidates.insert(i);
+      if ((a / i) % 2 == 0)
+        candidates.insert(a / i);
+    }
   }
+  unordered_set<int> answer;
+  for (int i : candidates) {
+    answer.insert(1 + i / 2);
+  }
+  return answer;
 }
 
 int main() {
-  ios_base::sync_with_stdio(false);
-  cin.tie(nullptr);
-  cout.tie(nullptr);
-  ll t = 1;
+  int t;
   cin >> t;
-  // Comment out above if only 1 test case
-  while (t--) {
-    solve();
-    cout << "\n";
-
-    // cout << (solve() ? "Yes" : "No") << '\n';
-    // cout << (solve() ? "YES" : "NO") << '\n';
-    // cout << (solve() ? "Alice" : "Bob") << '\n';
+  for (int _ = 1; _ <= t; _++) {
+    int n, pos;
+    cin >> n >> pos;
+    unordered_set<int> candidates = solve(n - pos); // bug2
+    for (int i : solve(n + pos - 2)) {              // bug1
+      candidates.insert(i);
+    }
+    int answer = 0;
+    for (int i : candidates) {
+      if (i >= pos) {
+        answer++;
+      }
+    }
+    cout << answer << endl;
   }
-  return 0;
 }
